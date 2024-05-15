@@ -2,16 +2,15 @@ package org.example.entities;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.example.entities.enums.TaskStatus;
 import java.io.Serial;
 import java.io.Serializable;
 
-
-
 @Entity
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @Table(name = "task")
 public class Task implements Serializable {
 	@Serial
@@ -19,10 +18,10 @@ public class Task implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@EqualsAndHashCode.Include
 	private Long id;
 
 	private String title;
-
 	private String description;
 
 	@Getter(AccessLevel.NONE)

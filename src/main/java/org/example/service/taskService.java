@@ -1,5 +1,6 @@
 package org.example.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.entities.Task;
 import org.example.repository.TaskRepository;
 import org.example.service.exception.DatabaseException;
@@ -34,8 +35,27 @@ public class taskService {
 			throw new ResourceNotFoundException(id);
 		} catch (DataIntegrityViolationException e) { //violação de integridade do banco de dados
 			throw new DatabaseException(e.getMessage());
-
 		}
+	}
+
+	public Task update(long id, Task obj) {
+		try {
+			Task entity = repository.getReferenceById(id); //prepara o objeto e depois efetuar uma operação com o bando de dados
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) { // quando a entidade acessada não existe
+			throw new ResourceNotFoundException(id);
+		}
+	}
+
+//	private void updateData(Task entity, Task obj) { //atualiza os dados da entity com os novos dados fornecidos pelo obj
+//		entity.setNome(obj.getNome());
+//		entity.setEmail(obj.getEmail());
+//		entity.setTelefone(obj.getTelefone());
+//	}
+
+	public Task insert(Task obj) {
+		return repository.save(obj);
 	}
 
 }
