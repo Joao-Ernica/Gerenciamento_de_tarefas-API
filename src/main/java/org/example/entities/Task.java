@@ -24,8 +24,6 @@ public class Task implements Serializable {
 	private String title;
 	private String description;
 
-	@Getter(AccessLevel.NONE)
-	@Setter(AccessLevel.NONE)
 	@Enumerated(EnumType.STRING)
 	private TaskStatus taskStatus;
 

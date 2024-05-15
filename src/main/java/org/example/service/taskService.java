@@ -38,6 +38,10 @@ public class taskService {
 		}
 	}
 
+	/*
+	 update de todas a tarefa
+	*/
+
 	public Task update(long id, Task obj) {
 		try {
 			Task entity = repository.getReferenceById(id); //prepara o objeto e depois efetuar uma operação com o bando de dados
@@ -48,11 +52,17 @@ public class taskService {
 		}
 	}
 
-//	private void updateData(Task entity, Task obj) { //atualiza os dados da entity com os novos dados fornecidos pelo obj
-//		entity.setNome(obj.getNome());
-//		entity.setEmail(obj.getEmail());
-//		entity.setTelefone(obj.getTelefone());
-//	}
+	private void updateData(Task entity, Task obj) {
+		if (obj.getTitle() != null){
+			entity.setTitle(obj.getTitle());
+		}
+		if (obj.getDescription() != null) {
+			entity.setDescription(obj.getDescription());
+		}
+		if (obj.getTaskStatus() != null) {
+			entity.setTaskStatus(obj.getTaskStatus());
+		}
+	}
 
 	public Task insert(Task obj) {
 		return repository.save(obj);

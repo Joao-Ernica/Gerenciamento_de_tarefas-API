@@ -2,6 +2,11 @@ package org.example.service.exception;
 
 import java.io.Serial;
 
+/*
+Objeto não encontrado
+manda a mensagem e o id não localizado
+*/
+
 public class ResourceNotFoundException extends RuntimeException { //"extends RuntimeException" usado quando se cria sua propria classe de exception
 	@Serial
 	private static final long serialVersionUID = 1L;
