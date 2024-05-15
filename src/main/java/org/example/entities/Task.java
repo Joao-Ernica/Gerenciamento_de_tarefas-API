@@ -3,14 +3,19 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.*;
+import org.example.entities.enums.TaskStatus;
+import java.io.Serial;
+import java.io.Serializable;
 
-import java.time.LocalDate;
+
 
 @Entity
 @Data
-@Table(name = "tank")
-public class Task {
+@Table(name = "task")
+public class Task implements Serializable {
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +25,16 @@ public class Task {
 
 	private String description;
 
-	private LocalDate dateOfConclusion;
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
+	@Enumerated(EnumType.STRING)
+	private TaskStatus taskStatus;
 
-	public Task(Long id, String title, String description, LocalDate dateOfConclusion) {
+	@Builder //teste
+	public Task(Long id, String title, String description, TaskStatus taskStatus) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.dateOfConclusion = dateOfConclusion;
+		this.taskStatus = taskStatus;
 	}
 }
