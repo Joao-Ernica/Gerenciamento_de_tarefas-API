@@ -2,16 +2,65 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>  <!-- Define a versão do modelo do POM -->
 
-    <groupId>org.example</groupId>
-    <artifactId>Gerenciamento_de_tarefas-API</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>org.example</groupId> <!-- dentifica o grupo ao qual o projeto pertence. É uma convenção de nomenclatura para organizar projetos -->
+    <artifactId>EstudoAPi</artifactId> <!-- Define o identificador do artefato, que é o nome do projeto -->
+    <version>1.0-SNAPSHOT</version> <!-- Especifica a versão do projeto. É importante para controle de versão e gerenciamento de dependências -->
 
-    <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <properties> <!-- Define propriedades do projeto -->
+        <maven.compiler.source>18</maven.compiler.source> <!-- Define a versão do Java usada para compilar o código-fonte -->
+        <maven.compiler.target>18</maven.compiler.target>
+        <java.version>18</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- Define a codificação de caracteres usada para ler e gravar arquivos de origem -->
     </properties>
+
+    <parent> <!-- Define o projeto pai (parent project) para herdar configurações e dependências -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.5</version>
+    </parent>
+
+    <dependencies>
+        <!-- Dependência do Spring Boot Starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.0.Final</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+
+        <!-- Dependência do Spring Boot Starter Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Dependência do H2 Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+    </dependencies>
 
 </project>
