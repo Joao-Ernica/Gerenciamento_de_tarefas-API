@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,12 +39,15 @@ public class taskService {
 	}
 
 	/*
-	 update de todas a tarefa
+	somente permitirá o update e insert se a data de finalizão for maior que a de cadastro
 	*/
 
 	public Task update(long id, Task obj) {
 		try {
 			Task entity = repository.getReferenceById(id); //prepara o objeto e depois efetuar uma operação com o bando de dados
+			if(obj.getFinalizationDate() != null && obj.getFinalizationDate().isBefore(ChronoLocalDate.from(entity.getRegistrationDate()))) {
+				throw new IllegalArgumentException("Data de finalização não pode ser anterior à data de cadastro");
+			}
 			updateData(entity, obj);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) { // quando a entidade acessada não existe
@@ -53,18 +56,24 @@ public class taskService {
 	}
 
 	private void updateData(Task entity, Task obj) {
-		if (obj.getTitle() != null){
+		if(obj.getTitle() != null) {
 			entity.setTitle(obj.getTitle());
 		}
-		if (obj.getDescription() != null) {
+		if(obj.getDescription() != null) {
 			entity.setDescription(obj.getDescription());
 		}
-		if (obj.getTaskStatus() != null) {
+		if(obj.getTaskStatus() != null) {
 			entity.setTaskStatus(obj.getTaskStatus());
+		}
+		if(obj.getFinalizationDate() != null) {
+			entity.setFinalizationDate(obj.getFinalizationDate());
 		}
 	}
 
 	public Task insert(Task obj) {
+		if(obj.getFinalizationDate() != null && obj.getFinalizationDate().isBefore(ChronoLocalDate.from(obj.getRegistrationDate()))) {
+			throw new IllegalArgumentException("Data de finalização não pode ser anterior à data de cadastro");
+		}
 		return repository.save(obj);
 	}
 

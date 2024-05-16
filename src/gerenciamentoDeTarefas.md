@@ -2,17 +2,19 @@
 
 ### pricipal
 
-- Criação de Tarefas. (pelo postamn)
-- Visualizar todas as suas tarefas e criar filtros como finalizadas, fora do prazo etc.....(Pensar em mais filtros)
-- Atualizar suas Tarefas, como renomear, mudar a prioridade, marcar como finalizada.
-- Deletar tarefas que não são mais necessárias
+- Criação de Tarefas. (pelo postamn) ✔
+- Visualizar todas as suas tarefas ✔
+- criar filtros como finalizadas, fora do prazo etc.....(Pensar em mais filtros) 
+- Atualizar suas Tarefas, como renomear, mudar a prioridade, marcar como finalizada. ✔
+- Deletar tarefas que não são mais necessárias ✔
 
 ### Pontos importantes.
 
 **tarefas devem ficar vinculadas ao seu usuario.**
-tenha a data de cadastro e data para finalização
 
- Pensar em mais pontos importantes
+tenha a data de cadastro e data para finalização ✔
+
+ Pensar em mais pontos importantes ✔
 
 ### Desafio(opcional):
 
