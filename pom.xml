@@ -8,7 +8,6 @@
     <artifactId>EstudoAPi</artifactId> <!-- Define o identificador do artefato, que é o nome do projeto -->
     <version>1.0-SNAPSHOT</version> <!-- Especifica a versão do projeto. É importante para controle de versão e gerenciamento de dependências -->
 
-
     <properties> <!-- Define propriedades do projeto -->
         <maven.compiler.source>18</maven.compiler.source> <!-- Define a versão do Java usada para compilar o código-fonte -->
         <maven.compiler.target>18</maven.compiler.target>

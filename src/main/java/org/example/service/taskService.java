@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +73,8 @@ public class taskService {
 	}
 
 	public Task insert(Task obj) {
-		if(obj.getFinalizationDate() != null && obj.getFinalizationDate().isBefore(ChronoLocalDate.from(obj.getRegistrationDate()))) {
+		obj.setRegistrationDate(LocalDateTime.now()); //garanta que a data seja registrada antes de fazer a comparão
+		if(obj.getFinalizationDate() != null && obj.getFinalizationDate().isBefore(obj.getRegistrationDate().toLocalDate())) {
 			throw new IllegalArgumentException("Data de finalização não pode ser anterior à data de cadastro");
 		}
 		return repository.save(obj);
