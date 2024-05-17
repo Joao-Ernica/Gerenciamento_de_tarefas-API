@@ -2,7 +2,10 @@ package org.example.config;
 
 import lombok.SneakyThrows;
 import org.example.entities.Task;
+import org.example.entities.Team;
 import org.example.repository.TaskRepository;
+import org.example.repository.TeamRepository;
+import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +24,21 @@ public class testConfig implements CommandLineRunner { // exeecutar quando o pro
 	@Autowired
 	private TaskRepository taskRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private TeamRepository teamRepository;
+
 	@Override
 	@SneakyThrows // ocultar exceções verificadas
 	public void run(String... args) /*throws Exception*/ { // sem a anotação SneakyThrows
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		var te1 = Team.builder()
+				.name()
+				.function()
+				.build();
 
 		var tas1 = Task.builder()
 				.title("API")

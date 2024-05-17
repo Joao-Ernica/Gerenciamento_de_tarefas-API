@@ -3,7 +3,7 @@ package org.example.entities.enums;
 import lombok.Getter;
 
 @Getter
-public enum UserStatus {
+public enum UserFunction {
 
 //	codigo numerico para caso no futuro precise
 
@@ -14,12 +14,12 @@ public enum UserStatus {
 
 	private final int code;
 
-	private UserStatus(int code) {
+	private UserFunction(int code) {
 		this.code = code;
 	}
 
-	public static TaskStatus valueOf(int code) {
-		for (TaskStatus value : TaskStatus.values()) {
+	public static UserFunction valueOf(int code) {
+		for (UserFunction value : UserFunction.values()) {
 			if(value.getCode() == code) {
 				return value;
 			}

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(name = "task")
+@Table(name = "task_tb")
 @EntityListeners(AuditingEntityListener.class) //para gerar a data automaticamente
 public class Task implements Serializable {
 	@Serial
