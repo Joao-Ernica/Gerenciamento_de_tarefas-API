@@ -30,13 +30,11 @@ public class testConfig implements CommandLineRunner { // exeecutar quando o pro
 		var tas1 = Task.builder()
 				.title("API")
 				.description("Fazer a API")
-				.taskStatus(TaskStatus.DENTRO_DO_PRAZO)
 				.finalizationDate(LocalDate.parse("25/05/2024", formatter))
 				.build();
 		var tas2 = Task.builder()
 				.title("Dormir")
 				.description("Café?")
-				.taskStatus(TaskStatus.FORA_DO_PRAZO)
 				.finalizationDate(LocalDate.parse("30/06/2024", formatter))
 				.build();
 

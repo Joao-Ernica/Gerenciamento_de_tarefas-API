@@ -38,16 +38,15 @@ public class Task implements Serializable {
 	private LocalDate finalizationDate;
 
 	@Enumerated(EnumType.STRING)
-	private TaskStatus taskStatus;
+	private TaskStatus taskStatus = TaskStatus.DENTRO_DO_PRAZO; //não faz sentido enviar uma requisição fora do prazo ou cancelada
 
 	public Task() {
 	}
 
 	@Builder //teste
-	public Task(String title, String description, TaskStatus taskStatus, LocalDate finalizationDate) {
+	public Task(String title, String description, LocalDate finalizationDate) {
 		this.title = title;
 		this.description = description;
-		this.taskStatus = taskStatus;
 		this.finalizationDate = finalizationDate;
 	}
 }

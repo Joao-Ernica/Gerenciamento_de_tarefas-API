@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.entities.Task;
+import org.example.entities.enums.TaskStatus;
 import org.example.service.taskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,15 @@ public class taskController {
 	@GetMapping("{id}")// quando colocar /users/1 colocara a pessoa com id 1
 	public Task findById(@PathVariable Long id) {
 		return taskService.findById(id);
+	}
+
+	/*
+	 filtro para o status
+	*/
+
+	@GetMapping("status/{status}")
+	public List<Task> getTasksByStatus(@PathVariable TaskStatus status) {
+		return taskService.findTasksByStatus(status);
 	}
 
 	@DeleteMapping(("{id}"))

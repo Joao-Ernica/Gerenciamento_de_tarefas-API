@@ -2,6 +2,7 @@ package org.example.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.entities.Task;
+import org.example.entities.enums.TaskStatus;
 import org.example.repository.TaskRepository;
 import org.example.service.exception.DatabaseException;
 import org.example.service.exception.ResourceNotFoundException;
@@ -28,6 +29,10 @@ public class taskService {
 	public Task findById(Long id) {
 		Optional<Task> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // se não puder lançar o get ira lançar uma excepetions
+	}
+
+	public List<Task> findTasksByStatus(TaskStatus status) {
+		return repository.findByTaskStatus(status);
 	}
 
 	public void delete(Long id) {
