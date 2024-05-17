@@ -6,6 +6,7 @@ import lombok.*;
 import org.example.entities.enums.TaskStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;

@@ -2,7 +2,6 @@ package org.example.config;
 
 import lombok.SneakyThrows;
 import org.example.entities.Task;
-import org.example.entities.enums.TaskStatus;
 import org.example.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
