@@ -7,10 +7,9 @@ public enum TeamFunction {
 
 //	codigo numerico para caso no futuro precise
 
-	Marketing(1),
-	Deve(2),
-	FUNCIONARIO(3),
-	MARKTING(4);
+	MARKETING(1),
+	DEVELOPER(2),
+	ACCOUNTING(3);
 
 	private final int code;
 

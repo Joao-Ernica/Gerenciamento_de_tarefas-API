@@ -2,7 +2,7 @@ package org.example.controller;
 
 import org.example.entities.Task;
 import org.example.entities.enums.TaskStatus;
-import org.example.service.taskService;
+import org.example.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 public class taskController {
 
 	@Autowired
-	private taskService taskService;
+	private TaskService taskService;
 
 	@GetMapping
 	public List<Task> findAll() {

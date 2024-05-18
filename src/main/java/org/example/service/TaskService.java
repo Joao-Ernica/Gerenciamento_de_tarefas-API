@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class taskService {
+public class TaskService {
 
 	@Autowired
 	private TaskRepository repository;
