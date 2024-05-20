@@ -25,16 +25,18 @@ public class User implements Serializable {
 	@Setter(AccessLevel.NONE) // proteção extra
 	private Long id;
 
+	@Enumerated(EnumType.STRING)
 	UserFunction function;
 
 	private String name;
+	private Integer cpf;
 	private String email;
 
 	@ManyToOne
 	@JoinColumn(name = "team_id")
 	private Team team;
 
-	@JsonIgnore
+	@Getter(onMethod = @__({@JsonIgnore}))
 	private String password;
 
 	public User() {
@@ -42,9 +44,10 @@ public class User implements Serializable {
 	}
 
 	@Builder
-	public User(UserFunction function, String name, String email, Team team, String password) {
+	public User(UserFunction function,Integer cpf, String name, String email, Team team, String password) {
 		this.function = function;
 		this.name = name;
+		this.cpf = cpf;
 		this.email = email;
 		this.team = team;
 		this.password = password;

@@ -52,6 +52,11 @@ public class taskController {
 	 constroi a URI com a localizão do novo obj
 	*/
 
+	/*
+	DTO
+
+	*/
+
 	@PostMapping // post serve para inserir dados
 	public ResponseEntity<Task> insert(@RequestBody Task obj) { //@RequestBody converter o corpo de uma requisição HTTP em um objeto Java.
 		obj = taskService.insert(obj);

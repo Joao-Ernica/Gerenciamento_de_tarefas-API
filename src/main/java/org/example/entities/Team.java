@@ -1,9 +1,9 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.entities.enums.TeamFunction;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -28,18 +28,18 @@ public class Team implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TeamFunction function;
 
-	@OneToMany(mappedBy = "team")
+	@OneToMany(mappedBy = "team") // corrigir e buscar o problema de ter que colocar o time quando cria o user
 	@Setter(AccessLevel.NONE)//para ter apenas get com o lombok
+	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
 	private Set<User> user = new HashSet<>();
 
 	public Team() {
-
 	}
 
 	@Builder
-	public Team(Long id, String name,TeamFunction function) {
-		this.id = id;
+	public Team(String name,TeamFunction function) {
 		this.name = name;
 		this.function = function;
 	}
+
 }

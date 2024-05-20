@@ -6,7 +6,9 @@ import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -27,7 +29,7 @@ public class UserController {
 	}
 
 	/*
-	 filtro para o status
+	 filtro para a function do usuario
 	*/
 
 	@GetMapping("function/{function}")
@@ -50,16 +52,16 @@ public class UserController {
 	 constroi a URI com a localizão do novo obj
 	*/
 
-//	@PostMapping // post serve para inserir dados
-//	public ResponseEntity<User> insert(@RequestBody User obj) { //@RequestBody converter o corpo de uma requisição HTTP em um objeto Java.
-//		obj = userService.insert(obj);
-//		URI uri = ServletUriComponentsBuilder //constroi uma URI
-//				.fromCurrentRequest()
-//				.path("{id}")
-//				.buildAndExpand(obj.getId())
-//				.toUri();
-//		return ResponseEntity.created(uri).body(obj);// criado e um código de status HTTP 201, usado para indicar o sucesso na criação
-//	}
+	@PostMapping // post serve para inserir dados
+	public ResponseEntity<User> insert(@RequestBody User obj) { //@RequestBody converter o corpo de uma requisição HTTP em um objeto Java.
+		obj = userService.insert(obj);
+		URI uri = ServletUriComponentsBuilder //constroi uma URI
+				.fromCurrentRequest()
+				.path("{id}")
+				.buildAndExpand(obj.getId())
+				.toUri();
+		return ResponseEntity.created(uri).body(obj);// criado e um código de status HTTP 201, usado para indicar o sucesso na criação
+	}
 
 }
 

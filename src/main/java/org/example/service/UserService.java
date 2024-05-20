@@ -74,8 +74,8 @@ public class UserService {
 //		}
 //	}
 
-//	public User insert(User obj) { //metodo basico para inserir no banco de dados um novo User
-//		return repository.save(obj);
-//	}
+	public User insert(User obj) { //metodo basico para inserir no banco de dados um novo User
+		return repository.save(obj);
+	}
 
 }
