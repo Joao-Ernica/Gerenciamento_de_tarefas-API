@@ -4,11 +4,14 @@ import API.entities.Task;
 import API.entities.enums.TaskStatus;
 import API.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -68,5 +71,9 @@ public class taskController {
 		return ResponseEntity.created(uri).body(obj);// criado e um código de status HTTP 201, usado para indicar o sucesso na criação
 	}
 
+	@GetMapping("finalizationDate/{order}")
+	public List<Task> getAllTasksOrderedByFinalizationDate(@PathVariable String order) {
+		return taskService.getAllTasksOrderedByData(order);
+	}
 }
 

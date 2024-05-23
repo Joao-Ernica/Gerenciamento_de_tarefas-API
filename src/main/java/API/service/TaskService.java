@@ -9,11 +9,14 @@ import API.entities.enums.TaskStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -33,6 +36,16 @@ public class TaskService {
 
 	public List<Task> findTasksByStatus(TaskStatus status) {
 		return repository.findByTaskStatus(status);
+	}
+
+	public List<Task> getAllTasksOrderedByData(String order) {
+		order = order.toUpperCase(Locale.ROOT);
+		if (order.equalsIgnoreCase("DESC")){
+			return repository.findAllByOrderByFinalizationDateDesc();
+		} else if (order.equalsIgnoreCase("CRES")){
+			return repository.findAllByOrderByFinalizationDateAsc();
+		}
+		throw new IllegalArgumentException("Codigo de ordem fornecido esta incorreto");
 	}
 
 	public void delete(Long id) {
