@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("user")
@@ -22,13 +23,18 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping
-	public List<User> findAll() {
-		return userService.findAll();
+	public List<UserResponse> findAll() {
+		List<User> user = userService.findAll();
+		return user.
+				stream()
+				.map(UserMapping::toUserResponse)
+				.collect(Collectors.toList());
 	}
 
-	@GetMapping("{id}")// quando colocar /users/1 colocara a pessoa com id 1
-	public User findById(@PathVariable Long id) {
-		return userService.findById(id);
+	@GetMapping("{id}")
+	public UserResponse findById(@PathVariable Long id) {
+		User user = userService.findById(id);
+		return UserMapping.toUserResponse(user);
 	}
 
 	/*
@@ -36,8 +42,12 @@ public class UserController {
 	*/
 
 	@GetMapping("function/{function}")
-	public List<User> getByFunction(@PathVariable UserFunction function) {
-		return userService.findByFunction(function);
+	public List<UserResponse> getByFunction(@PathVariable UserFunction function) {
+		List<User> user = userService.findByFunction(function);
+		return user.
+				stream()
+				.map(UserMapping::toUserResponse)
+				.collect(Collectors.toList());
 	}
 
 	@DeleteMapping(("{id}"))
@@ -46,10 +56,10 @@ public class UserController {
 		return ResponseEntity.noContent().build(); //codigo HTTP 204
 	}
 
-//	@PutMapping("{id}") //usado para atualizar um recurso existente na web
-//	public User update(@PathVariable Long id, @RequestBody Task obj) {
-//		return userService.update(id, obj);
-//	}
+	@PutMapping("{id}") //usado para atualizar um recurso existente na web
+	public User update(@PathVariable Long id, @RequestBody User obj) {
+		return userService.update(id, obj);
+	}
 
 	/*
 	 constroi a URI com a localizão do novo obj

@@ -11,9 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 public class UserResponse {
 
-	@Id
-	@Setter(AccessLevel.NONE) // proteção extra
-	private Long id;
+//	@Id
+//	@Setter(AccessLevel.NONE) // proteção extra
+//	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	UserFunction function;
