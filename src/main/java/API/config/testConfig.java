@@ -44,6 +44,11 @@ public class testConfig implements CommandLineRunner {
 				.function(TeamFunction.DEVELOPER)
 				.build();
 
+		var te2 = Team.builder()
+				.name("Marketing")
+				.function(TeamFunction.MARKETING)
+				.build();
+
 		var u1 = User.builder()
 				.name("Felipe")
 				.email("Felipe@email.com")
@@ -64,14 +69,16 @@ public class testConfig implements CommandLineRunner {
 				.title("API")
 				.description("Fazer a API")
 				.finalizationDate(LocalDate.parse("25/05/2024", formatter))
+				.team(te1)
 				.build();
 		var tas2 = Task.builder()
 				.title("Dormir")
 				.description("Café?")
 				.finalizationDate(LocalDate.parse("30/06/2024", formatter))
+				.team(te1)
 				.build();
 
-		teamRepository.saveAll(Arrays.asList(te1));
+		teamRepository.saveAll(Arrays.asList(te1, te2));
 		taskRepository.saveAll(Arrays.asList(tas1, tas2));
 		userRepository.saveAll(Arrays.asList(u1,u2));
 

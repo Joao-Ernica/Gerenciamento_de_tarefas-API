@@ -14,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("user")
@@ -22,10 +21,10 @@ import java.util.stream.Collectors;
 public class UserController {
 
 	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
 	@Autowired
-	private UserMapping mapping;
+	private final UserMapping mapping;
 
 	@GetMapping
 	public List<UserResponse> findAll() {
@@ -46,10 +45,7 @@ public class UserController {
 	@GetMapping("function/{function}")
 	public List<UserResponse> getByFunction(@PathVariable UserFunction function) {
 		List<User> user = userService.findByFunction(function);
-		return user. // sem o ModelMapper (fazer individualmente para cada metodo
-				stream()
-				.map(mapping::toUserResponse)
-				.collect(Collectors.toList());
+		return mapping.toUserResponseList(user);
 	}
 
 	@DeleteMapping(("{id}"))

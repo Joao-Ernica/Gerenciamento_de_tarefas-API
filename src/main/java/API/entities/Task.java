@@ -41,12 +41,17 @@ public class Task implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TaskStatus taskStatus = TaskStatus.DENTRO_DO_PRAZO; //não faz sentido enviar uma requisição fora do prazo ou cancelada
 
+	@ManyToOne
+	@JoinColumn(name = "team_id")
+	private Team team;
+
 	public Task() {
 	}
 
 	@Builder //teste
-	public Task(String title, String description, LocalDate finalizationDate) {
+	public Task(String title, String description, LocalDate finalizationDate, Team team) {
 		this.title = title;
+		this.team = team;
 		this.description = description;
 		this.finalizationDate = finalizationDate;
 	}

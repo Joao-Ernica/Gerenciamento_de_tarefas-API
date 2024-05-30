@@ -34,6 +34,11 @@ public class Team implements Serializable {
 	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
 	private Set<User> user = new HashSet<>();
 
+	@OneToMany(mappedBy = "team")
+	@Setter(AccessLevel.NONE)//para ter apenas get com o lombok
+	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
+	private Set<Task> task = new HashSet<>();
+
 	public Team() {
 	}
 

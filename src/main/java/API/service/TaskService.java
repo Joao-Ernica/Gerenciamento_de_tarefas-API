@@ -86,6 +86,9 @@ public class TaskService {
 		if(obj.getFinalizationDate() != null) {
 			entity.setFinalizationDate(obj.getFinalizationDate());
 		}
+		if(obj.getTeam() != null) {
+			entity.setTeam(obj.getTeam());
+		}
 	}
 
 	public Task insert(Task obj) {
