@@ -1,6 +1,7 @@
 package API.entities.response;
 
 import API.entities.Team;
+import API.entities.User;
 import API.entities.enums.UserFunction;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,9 @@ public class UserResponse {
 	private String name;
 	private String email;
 
-	@ManyToOne
-	@JoinColumn(name = "team_id")
-	private Team team;
+	public static UserResponse of(User user){
+		var usuarioResponse = new UserResponse();
+		usuarioResponse.setName(user.getName());
+		return usuarioResponse;
+	}
 }

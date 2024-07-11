@@ -12,6 +12,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @Entity
 @Table(name = "team_tb")
 public class Team implements Serializable {
@@ -38,9 +39,6 @@ public class Team implements Serializable {
 	@Setter(AccessLevel.NONE)//para ter apenas get com o lombok
 	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
 	private Set<Task> task = new HashSet<>();
-
-	public Team() {
-	}
 
 	@Builder
 	public Team(String name,TeamFunction function) {
