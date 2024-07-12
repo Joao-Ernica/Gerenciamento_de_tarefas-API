@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -74,6 +73,14 @@ public class taskController {
 	@GetMapping("finalizationDate/{order}")
 	public List<Task> getAllTasksOrderedByFinalizationDate(@PathVariable String order) {
 		return taskService.getAllTasksOrderedByData(order);
+	}
+
+
+	@GetMapping("{dataInicial}/{dataFinal}")
+	public List<Task> filtertaskByData(@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataInicial,
+										@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataFinal){
+
+		return taskService.findByFinalizationDateBetween(dataInicial, dataFinal);
 	}
 }
 

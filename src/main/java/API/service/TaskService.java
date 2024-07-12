@@ -3,25 +3,29 @@ package API.service;
 import API.entities.Task;
 import API.repository.TaskRepository;
 import API.service.exception.DatabaseException;
+import API.service.exception.IllegalArgumentException;
 import API.service.exception.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import API.entities.enums.TaskStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class TaskService {
 
 	@Autowired
-	private TaskRepository repository;
+	private final TaskRepository repository;
 
 	public List<Task> findAll() {
 		return repository.findAll();
@@ -97,6 +101,19 @@ public class TaskService {
 			throw new IllegalArgumentException("Data de finalização não pode ser anterior à data de cadastro");
 		}
 		return repository.save(obj);
+	}
+
+	public List <Task> findByFinalizationDateBetween(LocalDate dataInicial, LocalDate dataFinal){
+		if(dataInicial == null || dataFinal == null){
+			throw new IllegalArgumentException("As datas devem ser válidas e não nulas");
+		}
+		List<Task> task = repository.findByFinalizationDateBetween(dataInicial, dataFinal);
+
+		if(task.isEmpty()){ // verifica se a lista esta vazia
+			throw new IllegalArgumentException("Não existe tarefas entre essas datas");
+		}
+
+		return task;
 	}
 
 }

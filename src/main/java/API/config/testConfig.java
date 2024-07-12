@@ -37,7 +37,7 @@ public class testConfig implements CommandLineRunner {
 	@Override
 	@SneakyThrows // ocultar exceções verificadas
 	public void run(String... args) /*throws Exception*/ {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 		var te1 = Team.builder()
 				.name("time Dev 1")
@@ -68,13 +68,13 @@ public class testConfig implements CommandLineRunner {
 		var tas1 = Task.builder()
 				.title("API")
 				.description("Fazer a API")
-				.finalizationDate(LocalDate.parse("25/05/2024", formatter))
+				.finalizationDate(LocalDate.parse("25-05-2024", formatter))
 				.team(te1)
 				.build();
 		var tas2 = Task.builder()
 				.title("Dormir")
 				.description("Café?")
-				.finalizationDate(LocalDate.parse("30/06/2024", formatter))
+				.finalizationDate(LocalDate.parse("30-06-2024", formatter))
 				.team(te1)
 				.build();
 

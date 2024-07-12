@@ -32,10 +32,10 @@ public class Task implements Serializable {
 
 	@CreatedDate
 	@Column(updatable = false) //garente que depois de criada essa coluna não pode mais ser alterada
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	private LocalDateTime registrationDate;
 
-	@JsonFormat(pattern = "dd/MM/yyyy") //LocalDate se não for usar horas
+	@JsonFormat(pattern = "dd-MM-yyyy") //LocalDate se não for usar horas
 	private LocalDate finalizationDate;
 
 	@Enumerated(EnumType.STRING)
