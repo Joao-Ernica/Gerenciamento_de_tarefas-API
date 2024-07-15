@@ -21,20 +21,20 @@ import java.util.List;
 public class UserController {
 
 	@Autowired
-	private final UserService userService;
+	private final UserService service;
 
 	@Autowired
 	private final UserMapping mapping;
 
 	@GetMapping
 	public List<UserResponse> findAll() {
-		List<User> user = userService.findAll();
+		List<User> user = service.findAll();
 		return mapping.toUserResponseList(user); //utilizando ModelMapper
 	}
 
 	@GetMapping("{id}")
 	public UserResponse findById(@PathVariable Long id) {
-		User user = userService.findById(id);
+		User user = service.findById(id);
 		return mapping.toUserResponse(user);
 	}
 
@@ -44,20 +44,20 @@ public class UserController {
 
 	@GetMapping("function/{function}")
 	public List<UserResponse> getByFunction(@PathVariable UserFunction function) {
-		List<User> user = userService.findByFunction(function);
+		List<User> user = service.findByFunction(function);
 		return mapping.toUserResponseList(user);
 	}
 
 	@DeleteMapping(("{id}"))
 	public ResponseEntity<Void> delete(@PathVariable long id) {
-		userService.delete(id);
+		service.delete(id);
 		return ResponseEntity.noContent().build(); //codigo HTTP 204
 	}
 
 	@PutMapping("{id}")
 	public UserResponse update(@PathVariable Long id, @RequestBody UserRequest request) {
 		User user = mapping.toUser(request);
-		User userToUpdate = userService.update(id, user);
+		User userToUpdate = service.update(id, user);
 		return mapping.toUserResponse(userToUpdate);
 
 	}
@@ -70,15 +70,15 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<UserResponse> insert(@RequestBody UserRequest request) { //@RequestBody converter o corpo de uma requisição HTTP em um objeto Java.
 		User user = mapping.toUser(request);
-		User userInsert = userService.insert(user);
-		UserResponse userResponse = mapping.toUserResponse(userInsert);
+		User userInsert = service.insert(user);
+		UserResponse response = mapping.toUserResponse(userInsert);
 
 		URI uri = ServletUriComponentsBuilder //constroi uma URI
 				.fromCurrentRequest()
 				.path("{id}")
 				.buildAndExpand(user.getId())
 				.toUri();
-		return ResponseEntity.created(uri).body(userResponse);// criado e um código de status HTTP 201, usado para indicar o sucesso na criação
+		return ResponseEntity.created(uri).body(response);// criado e um código de status HTTP 201, usado para indicar o sucesso na criação
 	}
 
 

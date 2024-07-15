@@ -77,6 +77,9 @@ public class TaskService {
 		}
 	}
 
+	/*
+	Se tirar os "if" todos os atributos não colocados na requisição se tornam null
+	*/
 	private void updateData(Task entity, Task obj) {
 		if(obj.getTitle() != null) {
 			entity.setTitle(obj.getTitle());

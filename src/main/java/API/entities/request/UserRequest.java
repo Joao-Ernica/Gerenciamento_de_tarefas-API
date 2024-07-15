@@ -2,7 +2,6 @@ package API.entities.request;
 
 import jakarta.persistence.*;
 import lombok.*;
-import API.entities.Team;
 import API.entities.enums.UserFunction;
 
 @Getter
@@ -17,10 +16,6 @@ public class UserRequest {
 	private String name;
 	private Integer cpf;
 	private String email;
-
-	@ManyToOne
-	@JoinColumn(name = "team_id")
-	private Team team;
 
 	private String password;
 

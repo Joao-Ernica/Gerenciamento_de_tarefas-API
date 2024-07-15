@@ -2,7 +2,11 @@ package API.controller;
 
 import API.entities.Task;
 import API.entities.enums.TaskStatus;
+import API.entities.request.TaskRequest;
+import API.entities.response.TaskResponse;
+import API.mapper.TaskMapping;
 import API.service.TaskService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +19,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("task")
+@RequiredArgsConstructor
 public class taskController {
 
 	@Autowired
-	private TaskService taskService;
+	private TaskService service;
+
+	@Autowired
+	private final TaskMapping mapping;
 
 	@GetMapping
-	public List<Task> findAll() {
-		return taskService.findAll();
+	public List<TaskResponse> findAll() {
+		List<Task> task = service.findAll();
+		return mapping.toTaskResponseList(task);
 	}
 
 	@GetMapping("{id}")// quando colocar /users/1 colocara a pessoa com id 1
-	public Task findById(@PathVariable Long id) {
-		return taskService.findById(id);
+	public TaskResponse findById(@PathVariable Long id) {
+		Task task = service.findById(id);
+		return mapping.toTaskResponse(task);
 	}
 
 	/*
@@ -35,52 +45,53 @@ public class taskController {
 	*/
 
 	@GetMapping("status/{status}")
-	public List<Task> getTasksByStatus(@PathVariable TaskStatus status) {
-		return taskService.findTasksByStatus(status);
+	public List<TaskResponse> getTasksByStatus(@PathVariable TaskStatus status) {
+		List<Task> task = service.findTasksByStatus(status);
+		return mapping.toTaskResponseList(task);
 	}
 
 	@DeleteMapping(("{id}"))
 	public ResponseEntity<Void> delete(@PathVariable long id) {
-		taskService.delete(id);
+		service.delete(id);
 		return ResponseEntity.noContent().build(); //codigo HTTP 204
 	}
 
 	@PutMapping("{id}") //usado para atualizar um recurso existente na web
-	public Task update(@PathVariable Long id, @RequestBody Task obj) {
-		return taskService.update(id, obj);
+	public TaskResponse update(@PathVariable Long id, @RequestBody TaskRequest obj) {
+		Task request = mapping.toTask(obj);
+		Task task = service.update(id, request);
+		return mapping.toTaskResponse(task);
 	}
 
 	/*
 	 constroi a URI com a localizão do novo obj
 	*/
 
-	/*
-	DTO
-
-	*/
-
 	@PostMapping // post serve para inserir dados
-	public ResponseEntity<Task> insert(@RequestBody Task obj) { //@RequestBody converter o corpo de uma requisição HTTP em um objeto Java.
-		obj = taskService.insert(obj);
+	public ResponseEntity<TaskResponse> insert(@RequestBody TaskRequest obj) { //@RequestBody converter o corpo de uma requisição HTTP em um objeto Java.
+	Task request = mapping.toTask(obj);
+	Task task = service.insert(request);
+	TaskResponse response = mapping.toTaskResponse(task);
+
 		URI uri = ServletUriComponentsBuilder //constroi uma URI
 				.fromCurrentRequest()
 				.path("{id}")
-				.buildAndExpand(obj.getId())
+				.buildAndExpand(task.getId())
 				.toUri();
-		return ResponseEntity.created(uri).body(obj);// criado e um código de status HTTP 201, usado para indicar o sucesso na criação
+		return ResponseEntity.created(uri).body(response);
 	}
 
 	@GetMapping("finalizationDate/{order}")
-	public List<Task> getAllTasksOrderedByFinalizationDate(@PathVariable String order) {
-		return taskService.getAllTasksOrderedByData(order);
+	public List<TaskResponse> getAllTasksOrderedByFinalizationDate(@PathVariable String order) {
+		List<Task> task = service.getAllTasksOrderedByData(order);
+		return mapping.toTaskResponseList(task);
 	}
 
-
 	@GetMapping("{dataInicial}/{dataFinal}")
-	public List<Task> filtertaskByData(@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataInicial,
+	public List<TaskResponse> filterTaskByData(@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataInicial,
 										@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataFinal){
-
-		return taskService.findByFinalizationDateBetween(dataInicial, dataFinal);
+		List<Task> task = service.findByFinalizationDateBetween(dataInicial, dataFinal);
+		return mapping.toTaskResponseList(task);
 	}
 }
 
