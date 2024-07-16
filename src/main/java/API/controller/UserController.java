@@ -66,7 +66,6 @@ public class UserController {
 	 constroi a URI com a localizão do novo obj
 	*/
 
-
 	@PostMapping
 	public ResponseEntity<UserResponse> insert(@RequestBody UserRequest request) { //@RequestBody converter o corpo de uma requisição HTTP em um objeto Java.
 		User user = mapping.toUser(request);

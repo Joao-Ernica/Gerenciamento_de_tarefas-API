@@ -8,6 +8,7 @@ import API.service.exception.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import API.entities.enums.TaskStatus;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,6 +27,9 @@ public class TaskService {
 
 	@Autowired
 	private final TaskRepository repository;
+
+	@Autowired
+	private final ModelMapper mapper;
 
 	public List<Task> findAll() {
 		return repository.findAll();
@@ -80,23 +84,14 @@ public class TaskService {
 	/*
 	Se tirar os "if" todos os atributos não colocados na requisição se tornam null
 	*/
+
 	private void updateData(Task entity, Task obj) {
-		if(obj.getTitle() != null) {
-			entity.setTitle(obj.getTitle());
+		Optional.ofNullable(obj.getTitle()).ifPresent(entity::setTitle);
+		Optional.ofNullable(obj.getDescription()).ifPresent(entity::setDescription);
+		Optional.ofNullable(obj.getTaskStatus()).ifPresent(entity::setTaskStatus);
+		Optional.ofNullable(obj.getFinalizationDate()).ifPresent(entity::setFinalizationDate);
+		Optional.ofNullable(obj.getTeam()).ifPresent(entity::setTeam);
 		}
-		if(obj.getDescription() != null) {
-			entity.setDescription(obj.getDescription());
-		}
-		if(obj.getTaskStatus() != null) {
-			entity.setTaskStatus(obj.getTaskStatus());
-		}
-		if(obj.getFinalizationDate() != null) {
-			entity.setFinalizationDate(obj.getFinalizationDate());
-		}
-		if(obj.getTeam() != null) {
-			entity.setTeam(obj.getTeam());
-		}
-	}
 
 	public Task insert(Task obj) {
 		obj.setRegistrationDate(LocalDateTime.now()); //garanta que a data seja registrada antes de fazer a comparão

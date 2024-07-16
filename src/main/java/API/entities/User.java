@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serial;
 import java.io.Serializable;
 
-@NoArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @EntityListeners(AuditingEntityListener.class) //para gerar a data automaticamente
@@ -29,14 +28,16 @@ public class User implements Serializable {
 	UserFunction function;
 
 	private String name;
+	@Setter(AccessLevel.NONE)
 	private Integer cpf;
 	private String email;
 
 	@ManyToOne
 	@JoinColumn(name = "team_id")
-	private Team team;
+	private final Team team;
 
 	@Getter(onMethod = @__({@JsonIgnore}))
+	@Setter(AccessLevel.NONE)
 	private String password;
 
 	@Builder

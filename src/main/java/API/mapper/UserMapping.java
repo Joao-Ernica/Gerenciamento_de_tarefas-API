@@ -25,7 +25,6 @@ public class UserMapping {
 		return mapper.map(user, UserResponse.class);
 	}
 
-
 	public List<UserResponse> toUserResponseList(List<User> user) {
 		return user.
 				stream()

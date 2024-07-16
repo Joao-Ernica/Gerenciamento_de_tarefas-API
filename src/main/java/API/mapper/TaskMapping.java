@@ -30,26 +30,4 @@ public class TaskMapping {
 				.map(this::toTaskResponse)
 				.collect(Collectors.toList());
 	}
-
-//	public static Task toTask(TaskRequest request){
-//
-//		Task Task = new Task();
-//		Task.setName(request.getName());
-//		Task.setCpf(request.getCpf());
-//		Task.setEmail(request.getEmail());
-//		Task.setPassword(request.getPassword());
-//		Task.setFunction(request.getFunction());
-//		Task.setTeam(request.getTeam());
-//		return Task;
-//	}
-//	public static TaskResponse toTaskResponse(Task Task){
-//
-//		TaskResponse response = new TaskResponse();
-//		response.setName(Task.getName());
-//		response.setEmail(Task.getEmail());
-//		response.setFunction(Task.getFunction());
-//		response.setTeam(Task.getTeam());
-//		return response;
-//  }
 }
-
