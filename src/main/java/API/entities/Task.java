@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "task_tb")
 @EntityListeners(AuditingEntityListener.class) //para gerar a data automaticamente
+@Builder
 public class Task implements Serializable {
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -24,8 +26,7 @@ public class Task implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	@Setter(AccessLevel.NONE) // proteção extra
-	private Long id;
+	private final Long id;
 
 	private String title;
 	private String description;
@@ -45,14 +46,4 @@ public class Task implements Serializable {
 	@JoinColumn(name = "team_id")
 	private Team team;
 
-	public Task() {
-	}
-
-	@Builder //teste
-	public Task(String title, String description, LocalDate finalizationDate, Team team) {
-		this.title = title;
-		this.team = team;
-		this.description = description;
-		this.finalizationDate = finalizationDate;
-	}
 }

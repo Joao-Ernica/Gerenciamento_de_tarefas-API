@@ -11,7 +11,9 @@ import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class) //para gerar a data automaticamente
+@Builder
 @Entity
 @Table(name = "user_tb")
 public class User implements Serializable {
@@ -21,13 +23,13 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	@Setter(AccessLevel.NONE) // proteção extra
-	private Long id;
+	private final Long id;
 
 	@Enumerated(EnumType.STRING)
 	UserFunction function;
 
 	private String name;
+
 	@Setter(AccessLevel.NONE)
 	private Integer cpf;
 	private String email;
@@ -39,14 +41,4 @@ public class User implements Serializable {
 	@Getter(onMethod = @__({@JsonIgnore}))
 	@Setter(AccessLevel.NONE)
 	private String password;
-
-	@Builder
-	public User(UserFunction function,Integer cpf, String name, String email, Team team, String password) {
-		this.function = function;
-		this.name = name;
-		this.cpf = cpf;
-		this.email = email;
-		this.team = team;
-		this.password = password;
-	}
 }

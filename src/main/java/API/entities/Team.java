@@ -12,7 +12,8 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "team_tb")
 public class Team implements Serializable {
@@ -22,8 +23,7 @@ public class Team implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	@Setter(AccessLevel.NONE) // proteção extra
-	private Long id;
+	private final Long id;
 
 	private String name;
 
@@ -31,19 +31,11 @@ public class Team implements Serializable {
 	private TeamFunction function;
 
 	@OneToMany(mappedBy = "team") // corrigir e buscar o problema de ter que colocar o time quando cria o user
-	@Setter(AccessLevel.NONE)//para ter apenas get com o lombok
 	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
-	private Set<User> user = new HashSet<>();
+	private final Set<User> user = new HashSet<>();
 
 	@OneToMany(mappedBy = "team")
-	@Setter(AccessLevel.NONE)//para ter apenas get com o lombok
 	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
-	private Set<Task> task = new HashSet<>();
-
-	@Builder
-	public Team(String name,TeamFunction function) {
-		this.name = name;
-		this.function = function;
-	}
+	private final Set<Task> task = new HashSet<>();
 
 }

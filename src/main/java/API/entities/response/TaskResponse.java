@@ -1,6 +1,9 @@
 package API.entities.response;
 
 import API.entities.Task;
+import API.entities.enums.TaskStatus;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +22,9 @@ public class TaskResponse {
 	private String description;
 	private LocalDateTime registrationDate;
 	private LocalDate finalizationDate;
+
+	@Enumerated(EnumType.STRING)
+	private TaskStatus taskStatus;
 
 	private static TaskResponse of(Task task){
 		var response = new TaskResponse();

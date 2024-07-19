@@ -93,5 +93,6 @@ public class taskController {
 		List<Task> task = service.findByFinalizationDateBetween(dataInicial, dataFinal);
 		return mapping.toTaskResponseList(task);
 	}
+
 }
 

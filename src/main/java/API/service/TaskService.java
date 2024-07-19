@@ -10,6 +10,7 @@ import API.entities.enums.TaskStatus;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -46,9 +47,9 @@ public class TaskService {
 
 	public List<Task> getAllTasksOrderedByData(String order) {
 		order = order.toUpperCase(Locale.ROOT);
-		if (order.equalsIgnoreCase("DESC")){
+		if(order.equalsIgnoreCase("DESC")) {
 			return repository.findAllByOrderByFinalizationDateDesc();
-		} else if (order.equalsIgnoreCase("CRES")){
+		} else if(order.equalsIgnoreCase("CRES")) {
 			return repository.findAllByOrderByFinalizationDateAsc();
 		}
 		throw new IllegalArgumentException("Codigo de ordem fornecido esta incorreto");
@@ -88,10 +89,9 @@ public class TaskService {
 	private void updateData(Task entity, Task obj) {
 		Optional.ofNullable(obj.getTitle()).ifPresent(entity::setTitle);
 		Optional.ofNullable(obj.getDescription()).ifPresent(entity::setDescription);
-		Optional.ofNullable(obj.getTaskStatus()).ifPresent(entity::setTaskStatus);
-		Optional.ofNullable(obj.getFinalizationDate()).ifPresent(entity::setFinalizationDate);
+		Optional.ofNullable(obj.getFinalizationDate()).ifPresent(entity::setFinalizationDate); // fazer metodi a parte
 		Optional.ofNullable(obj.getTeam()).ifPresent(entity::setTeam);
-		}
+	}
 
 	public Task insert(Task obj) {
 		obj.setRegistrationDate(LocalDateTime.now()); //garanta que a data seja registrada antes de fazer a comparão
@@ -101,17 +101,28 @@ public class TaskService {
 		return repository.save(obj);
 	}
 
-	public List <Task> findByFinalizationDateBetween(LocalDate dataInicial, LocalDate dataFinal){
-		if(dataInicial == null || dataFinal == null){
+	public List<Task> findByFinalizationDateBetween(LocalDate dataInicial, LocalDate dataFinal) {
+		if(dataInicial == null || dataFinal == null) {
 			throw new IllegalArgumentException("As datas devem ser válidas e não nulas");
 		}
 		List<Task> task = repository.findByFinalizationDateBetween(dataInicial, dataFinal);
 
-		if(task.isEmpty()){ // verifica se a lista esta vazia
+		if(task.isEmpty()) { // verifica se a lista esta vazia
 			throw new IllegalArgumentException("Não existe tarefas entre essas datas");
 		}
 
 		return task;
 	}
 
+//	@EventListener //sempre será chamado quando determinado evento acontecer
+//	public void handleTaskUpdate(TaskUpdatedEvent event) {
+//		Task task = event.getTask();
+//		LocalDate currentDate = LocalDate.now();
+//
+//		if(task.getFinalizationDate().isBefore(currentDate)) {
+//			task.setTaskStatus(TaskStatus.FORA_DO_PRAZO);
+//			repository.save(task);
+//		}
+//
+//	}
 }
