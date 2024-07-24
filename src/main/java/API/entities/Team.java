@@ -13,6 +13,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "team_tb")
@@ -23,19 +24,20 @@ public class Team implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	private final Long id;
+	@Setter(AccessLevel.NONE)
+	private Long id;
 
 	private String name;
 
 	@Enumerated(EnumType.STRING)
 	private TeamFunction function;
 
-	@OneToMany(mappedBy = "team") // corrigir e buscar o problema de ter que colocar o time quando cria o user
+	@OneToMany(mappedBy = "team")
 	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
 	private final Set<User> user = new HashSet<>();
 
 	@OneToMany(mappedBy = "team")
-	@Getter(onMethod = @__({@JsonIgnore}))// gerar o JsonIgnore no getter do lombok
+	@Getter(onMethod = @__({@JsonIgnore}))
 	private final Set<Task> task = new HashSet<>();
 
 }

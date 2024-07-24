@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "task_tb")
 @EntityListeners(AuditingEntityListener.class) //para gerar a data automaticamente
@@ -26,7 +27,8 @@ public class Task implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	private final Long id;
+	@Setter(AccessLevel.NONE)
+	private Long id;
 
 	private String title;
 	private String description;

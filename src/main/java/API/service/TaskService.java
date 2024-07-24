@@ -10,14 +10,13 @@ import API.entities.enums.TaskStatus;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.EventListener;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -72,9 +71,6 @@ public class TaskService {
 	public Task update(long id, Task obj) {
 		try {
 			Task entity = repository.getReferenceById(id); //prepara o objeto e depois efetuar uma operação com o bando de dados
-			if(obj.getFinalizationDate() != null && obj.getFinalizationDate().isBefore(ChronoLocalDate.from(entity.getRegistrationDate()))) {
-				throw new IllegalArgumentException("Data de finalização não pode ser anterior à data de cadastro");
-			}
 			updateData(entity, obj);
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) { // quando a entidade acessada não existe
@@ -89,9 +85,27 @@ public class TaskService {
 	private void updateData(Task entity, Task obj) {
 		Optional.ofNullable(obj.getTitle()).ifPresent(entity::setTitle);
 		Optional.ofNullable(obj.getDescription()).ifPresent(entity::setDescription);
-		Optional.ofNullable(obj.getFinalizationDate()).ifPresent(entity::setFinalizationDate); // fazer metodi a parte
 		Optional.ofNullable(obj.getTeam()).ifPresent(entity::setTeam);
 	}
+
+	public Task finalizationUpdate(Long id, LocalDate date) {
+		try {
+			Task entity = repository.getReferenceById(id);
+			if(date != null && date.isBefore(entity.getRegistrationDate().toLocalDate())) {
+				throw new IllegalArgumentException("A Nova data de finalização não pode ser null");
+			}
+			entity.setFinalizationDate(date);
+			return repository.save(entity);
+
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+
+		} catch (DateTimeParseException e) {
+			throw new IllegalArgumentException("Formato de data inválido. Esperado: dd-MM-yyyy");
+		}
+	}
+
+
 
 	public Task insert(Task obj) {
 		obj.setRegistrationDate(LocalDateTime.now()); //garanta que a data seja registrada antes de fazer a comparão

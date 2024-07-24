@@ -3,6 +3,7 @@ package API.config;
 import API.entities.Task;
 import API.entities.Team;
 import API.entities.User;
+import API.entities.enums.TaskStatus;
 import API.entities.enums.TeamFunction;
 import API.entities.enums.UserFunction;
 import API.repository.TaskRepository;
@@ -49,6 +50,7 @@ public class testConfig implements CommandLineRunner {
 				.function(TeamFunction.MARKETING)
 				.build();
 
+
 		var u1 = User.builder()
 				.name("Felipe")
 				.email("Felipe@email.com")
@@ -65,17 +67,21 @@ public class testConfig implements CommandLineRunner {
 				.team(te1)
 				.build();
 
+
 		var tas1 = Task.builder()
 				.title("API")
 				.description("Fazer a API")
 				.finalizationDate(LocalDate.parse("25-05-2024", formatter))
 				.team(te1)
+				.taskStatus(TaskStatus.DENTRO_DO_PRAZO)
 				.build();
+
 		var tas2 = Task.builder()
 				.title("Dormir")
 				.description("Café?")
 				.finalizationDate(LocalDate.parse("30-06-2024", formatter))
 				.team(te1)
+				.taskStatus(TaskStatus.DENTRO_DO_PRAZO)
 				.build();
 
 		teamRepository.saveAll(Arrays.asList(te1, te2));

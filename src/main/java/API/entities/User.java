@@ -12,6 +12,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class) //para gerar a data automaticamente
 @Builder
 @Entity
@@ -23,7 +24,8 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
-	private final Long id;
+	@Setter(AccessLevel.NONE)
+	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	UserFunction function;
@@ -36,7 +38,8 @@ public class User implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "team_id")
-	private final Team team;
+	@Setter(AccessLevel.NONE)
+	private Team team;
 
 	@Getter(onMethod = @__({@JsonIgnore}))
 	@Setter(AccessLevel.NONE)

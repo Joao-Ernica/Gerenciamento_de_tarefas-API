@@ -12,10 +12,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("task")
@@ -63,6 +64,15 @@ public class taskController {
 		return mapping.toTaskResponse(task);
 	}
 
+
+	@PutMapping("finalizationDate/{id}")
+	public TaskResponse finalizationUpdate(@PathVariable Long id, @RequestBody Map<String,String> requestBody){ // não é possivel formatar diretamente, então é necessario converter e formatar
+		String dateString = requestBody.get("finalizationDate"); //mudar o nome da chave da requisição
+		LocalDate date = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy")); // converter e formatar a string para LocalDate
+		Task task = service.finalizationUpdate(id, date);
+		return mapping.toTaskResponse(task);
+	}
+
 	/*
 	 constroi a URI com a localizão do novo obj
 	*/
@@ -89,7 +99,7 @@ public class taskController {
 
 	@GetMapping("{dataInicial}/{dataFinal}")
 	public List<TaskResponse> filterTaskByData(@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataInicial,
-										@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataFinal){
+										       @PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") LocalDate dataFinal){
 		List<Task> task = service.findByFinalizationDateBetween(dataInicial, dataFinal);
 		return mapping.toTaskResponseList(task);
 	}
