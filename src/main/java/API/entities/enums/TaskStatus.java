@@ -1,8 +1,10 @@
 package API.entities.enums;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum TaskStatus {
 
 //	codigo numerico para caso no futuro precise
@@ -13,10 +15,6 @@ public enum TaskStatus {
 	CANCELADO(4);
 
 	private final int code;
-
-	private TaskStatus(int code) {
-		this.code = code;
-	}
 
 	public static TaskStatus valueOf(int code) {
 		for (TaskStatus value : TaskStatus.values()) {

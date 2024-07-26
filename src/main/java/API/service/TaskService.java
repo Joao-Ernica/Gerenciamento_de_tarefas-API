@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import API.entities.enums.TaskStatus;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -69,23 +70,11 @@ public class TaskService {
 	*/
 
 	public Task update(long id, Task obj) {
-		try {
-			Task entity = repository.getReferenceById(id); //prepara o objeto e depois efetuar uma operação com o bando de dados
-			updateData(entity, obj);
-			return repository.save(entity);
-		} catch (EntityNotFoundException e) { // quando a entidade acessada não existe
-			throw new ResourceNotFoundException(id);
-		}
-	}
+		Task byId = repository.findById(id).orElseThrow(()
+				-> new IllegalArgumentException("Id não encontrado"));
 
-	/*
-	Se tirar os "if" todos os atributos não colocados na requisição se tornam null
-	*/
-
-	private void updateData(Task entity, Task obj) {
-		Optional.ofNullable(obj.getTitle()).ifPresent(entity::setTitle);
-		Optional.ofNullable(obj.getDescription()).ifPresent(entity::setDescription);
-		Optional.ofNullable(obj.getTeam()).ifPresent(entity::setTeam);
+		BeanUtils.copyProperties(obj, byId, "id");
+		return repository.save(byId);
 	}
 
 	public Task finalizationUpdate(Long id, LocalDate date) {
@@ -104,8 +93,6 @@ public class TaskService {
 			throw new IllegalArgumentException("Formato de data inválido. Esperado: dd-MM-yyyy");
 		}
 	}
-
-
 
 	public Task insert(Task obj) {
 		obj.setRegistrationDate(LocalDateTime.now()); //garanta que a data seja registrada antes de fazer a comparão

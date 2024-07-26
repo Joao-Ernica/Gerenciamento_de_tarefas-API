@@ -45,7 +45,7 @@ public class taskController {
 	 filtro para o status
 	*/
 
-	@GetMapping("status/{status}")
+	@GetMapping("{status}")
 	public List<TaskResponse> getTasksByStatus(@PathVariable TaskStatus status) {
 		List<Task> task = service.findTasksByStatus(status);
 		return mapping.toTaskResponseList(task);
