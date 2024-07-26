@@ -11,5 +11,6 @@ import java.util.List;
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
 	List<Team> findByFunction(TeamFunction function);
+	boolean existsByNameAndIdNot(String name, Long id);
 
 }

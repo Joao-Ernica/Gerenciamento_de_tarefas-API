@@ -6,13 +6,13 @@ import API.repository.UserRepository;
 import API.service.exception.DatabaseException;
 import API.service.exception.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -25,8 +25,8 @@ public class UserService {
 	}
 
 	public User findById(Long id) {
-		Optional<User> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // se não puder lançar o get ira lançar uma excepetions
+		return repository.findById(id).orElseThrow(()
+				-> new ResourceNotFoundException(id));
 	}
 
 	public List<User> findByFunction(UserFunction function) {
@@ -50,15 +50,11 @@ public class UserService {
 	public User update(long id, User obj) {
 		try {
 			User entity = repository.getReferenceById(id); //prepara o objeto e depois efetuar uma operação com o bando de dados
-			updateData(entity, obj);
+			BeanUtils.copyProperties(obj, entity, "id");
 			return repository.save(entity);
 		} catch (EntityNotFoundException e) { // quando a entidade acessada não existe
 			throw new ResourceNotFoundException(id);
 		}
-	}
-
-	private void updateData(User entity, User obj) {
-
 	}
 
 	public User insert(User obj) { //metodo basico para inserir no banco de dados um novo User

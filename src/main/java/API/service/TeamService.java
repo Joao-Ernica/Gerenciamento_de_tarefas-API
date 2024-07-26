@@ -23,8 +23,8 @@ public class TeamService {
 	}
 
 	public Team findById(Long id) {
-		Optional<Team> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // se não puder lançar o get ira lançar uma excepetions
+		return repository.findById(id).orElseThrow(()
+				-> new ResourceNotFoundException(id));  // se não puder lançar o get ira lançar uma excepetions
 	}
 
 	public List<Team> findByFunction(TeamFunction function) {
@@ -43,10 +43,13 @@ public class TeamService {
 	}
 
 	public Team update(Long id, Team obj) {
-		Team byId = repository.findById(id).orElseThrow(() ->
-				new IllegalArgumentException("Id não encontrado"));
+		Team byId = repository.findById(id).orElseThrow(()
+				-> new IllegalArgumentException("Id não encontrado"));
 
-		if(obj.getName().equalsIgnoreCase(byId.))
+		if(repository.existsByNameAndIdNot(obj.getName(), id)) {
+			throw new java.lang.IllegalArgumentException("Nome já existe");
+		}
+
 		BeanUtils.copyProperties(obj, byId, "id");
 		return repository.save(byId);
 

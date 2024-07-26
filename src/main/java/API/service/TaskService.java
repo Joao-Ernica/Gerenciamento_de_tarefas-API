@@ -37,8 +37,8 @@ public class TaskService {
 	}
 
 	public Task findById(Long id) {
-		Optional<Task> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // se não puder lançar o get ira lançar uma excepetions
+		return repository.findById(id).orElseThrow(()
+				-> new ResourceNotFoundException(id));
 	}
 
 	public List<Task> findTasksByStatus(TaskStatus status) {
@@ -47,9 +47,9 @@ public class TaskService {
 
 	public List<Task> getAllTasksOrderedByData(String order) {
 		order = order.toUpperCase(Locale.ROOT);
-		if(order.equalsIgnoreCase("DESC")) {
+		if(order.equals("DECR")) {
 			return repository.findAllByOrderByFinalizationDateDesc();
-		} else if(order.equalsIgnoreCase("CRES")) {
+		} else if(order.equals("CRES")) {
 			return repository.findAllByOrderByFinalizationDateAsc();
 		}
 		throw new IllegalArgumentException("Codigo de ordem fornecido esta incorreto");
